@@ -1,0 +1,8 @@
+{
+  "name": "Sweetlone Chickens",
+  "description": "Farm Fresh. Family Raised. Premium live chickens and live farm data showcase.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
