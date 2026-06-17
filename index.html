@@ -1,1253 +1,1180 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sweetlone Chickens | Farm Fresh. Family Raised.</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sweetlone Chickens - Farm Fresh Family Raised</title>
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght=0,400;0,700;1,400&family=Playfair+Display:ital,wght=0,400..900;1,400..900&display=swap" rel="stylesheet" />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#F4A7B9',
+              'primary-light': '#FADADD',
+              secondary: '#7B4F2E',
+              'secondary-light': '#A0522D',
+              base: '#FFF8F5',
+              accent: '#C0556A',
+              'text-dark': '#3B1F0E'
+            }
+          }
+        }
+      }
+    </script>
     <style>
-        :root {
-            --primary: #F4A7B9;
-            --primary-light: #FADADD;
-            --secondary: #7B4F2E;
-            --secondary-light: #A0522D;
-            --base: #FFF8F5;
-            --accent: #C0556A;
-            --text-dark: #3B1F0E;
-            --white: #ffffff;
-            --shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
-            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      :root {
+        --primary: #F4A7B9;
+        --primary-light: #FADADD;
+        --secondary: #7B4F2E;
+        --secondary-light: #A0522D;
+        --base: #FFF8F5;
+        --accent: #C0556A;
+        --text-dark: #3B1F0E;
+        --white: #ffffff;
+        --shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+        --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      }
+
+      body {
+        font-family: 'Lato', sans-serif;
+        background-color: var(--base);
+        color: var(--text-dark);
+        line-height: 1.6;
+        scroll-behavior: smooth;
+      }
+
+      h1, h2, h3, .brand-font {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+      }
+
+      /* Animated floating feathers */
+      .floating-feather {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        fill: var(--accent);
+        opacity: 0.15;
+        animation: floatAnimation 8s infinite ease-in-out;
+        pointer-events: none;
+      }
+
+      @keyframes floatAnimation {
+        0%, 100% { transform: translate(0, 0) rotate(0deg); }
+        25% { transform: translate(100px, 100px) rotate(45deg); }
+        50% { transform: translate(200px, 0) rotate(90deg); }
+        75% { transform: translate(100px, -100px) rotate(135deg); }
+      }
+
+      /* Pulsing Dot badge */
+      .pulse-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #22c55e;
+        border-radius: 50%;
+        box-shadow: 0 0 0 rgba(34, 197, 94, 0.4);
+        animation: pulseAnimation 1.5s infinite;
+      }
+
+      @keyframes pulseAnimation {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+      }
+
+      /* Custom print target styles */
+      @media print {
+        body > *:not(#quotation-output) {
+          display: none !important;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Lato', sans-serif;
-            background-color: var(--base);
-            color: var(--text-dark);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        h1, h2, h3, .brand-font {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-        }
-
-        section {
-            padding: 100px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: var(--transition);
-        }
-
-        section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        /* Nav */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(255, 248, 245, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 2px solid var(--primary-light);
-            padding: 15px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: var(--transition);
-        }
-
-        .nav-logo {
-            font-size: 1.5rem;
-            color: var(--secondary);
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 700;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover {
-            color: var(--accent);
-        }
-
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-        }
-
-        .hamburger span {
-            width: 25px;
-            height: 3px;
-            background-color: var(--secondary);
-            border-radius: 2px;
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-block;
-            padding: 14px 28px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            text-align: center;
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            color: var(--white);
-            box-shadow: 0 4px 15px rgba(244, 167, 185, 0.4);
-        }
-
-        .btn-primary:hover {
-            background-color: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(192, 85, 106, 0.4);
-        }
-
-        .btn-secondary {
-            background-color: var(--white);
-            color: var(--secondary);
-            border: 2px solid var(--secondary);
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--primary-light);
-            border-color: var(--primary);
-        }
-
-        /* Hero */
-        #hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: linear-gradient(135deg, var(--primary-light) 0%, var(--base) 100%);
-            position: relative;
-            overflow: hidden;
-            max-width: none;
-            padding: 0;
-            opacity: 1;
-            transform: none;
-        }
-
-        .hero-content {
-            z-index: 2;
-            padding: 0 20px;
-        }
-
-        .hero-title {
-            font-size: clamp(3rem, 10vw, 5.5rem);
-            color: var(--secondary);
-            margin-bottom: 20px;
-            line-height: 1.1;
-        }
-
-        .hero-tagline {
-            font-size: 1.5rem;
-            color: var(--text-dark);
-            margin-bottom: 40px;
-            font-style: italic;
-        }
-
-        .hero-btns {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-
-        .floating-feather {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            fill: var(--accent);
-            opacity: 0.15;
-            animation: float 8s infinite ease-in-out;
-            pointer-events: none;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(100px, 100px) rotate(45deg); }
-            50% { transform: translate(200px, 0) rotate(90deg); }
-            75% { transform: translate(100px, -100px) rotate(135deg); }
-        }
-
-        .farm-silhouette {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            fill: var(--secondary);
-            opacity: 0.05;
-            pointer-events: none;
-        }
-
-        /* Farm Dashboard */
-        .grid-dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
-        }
-
-        .coop-card {
-            background: var(--white);
-            padding: 30px;
-            border-radius: 24px;
-            border: 8px solid #f1e4dc;
-            border-image: linear-gradient(to bottom, #7B4F2E, #A0522D) 1;
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-            transition: var(--transition);
-        }
-
-        .coop-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(123, 79, 46, 0.15);
-        }
-
-        .coop-card h3 {
-            color: var(--secondary);
-            margin-bottom: 20px;
-            font-size: 1.6rem;
-        }
-
-        .data-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            font-weight: 700;
-        }
-
-        .data-val {
-            font-size: 1.2rem;
-            color: var(--accent);
-            transition: var(--transition);
-        }
-
-        .live-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.75rem;
-            font-weight: 900;
-            color: #22c55e;
-            margin-bottom: 15px;
-        }
-
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #22c55e;
-            border-radius: 50%;
-            box-shadow: 0 0 0 rgba(34, 197, 94, 0.4);
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
-        }
-
-        .status-badge {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            display: inline-block;
-            margin-top: 10px;
-        }
-
-        .status-optimal { background: #dcfce7; color: #166534; }
-        .status-check { background: #fef3c7; color: #92400e; }
-
-        /* Pricing */
-        .pricing-table-container {
-            background: var(--white);
-            border-radius: 30px;
-            padding: 40px;
-            box-shadow: var(--shadow);
-            border: 2px solid var(--primary-light);
-            margin-bottom: 50px;
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .price-card {
-            padding: 30px;
-            border-radius: 20px;
-            text-align: center;
-            border: 1px solid var(--primary-light);
-            transition: var(--transition);
-        }
-
-        .price-card.best-value {
-            border: 3px solid var(--primary);
-            position: relative;
-        }
-
-        .value-badge {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--accent);
-            color: var(--white);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 900;
-        }
-
-        .price-card h4 { font-size: 1.2rem; margin-bottom: 10px; }
-        .price-tag { font-size: 2.5rem; color: var(--secondary); font-weight: 900; }
-
-        .calculator-box {
-            background: var(--primary-light);
-            padding: 30px;
-            border-radius: 24px;
-            margin-top: 40px;
-            text-align: center;
-        }
-
-        .calculator-input {
-            padding: 15px;
-            border-radius: 12px;
-            border: 2px solid var(--primary);
-            font-size: 1.2rem;
-            width: 150px;
-            text-align: center;
-            margin: 20px auto;
-            display: block;
-        }
-
-        .calc-result {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .calc-item label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--secondary); }
-        .calc-item span { font-size: 1.4rem; font-weight: 900; font-family: 'Playfair Display'; }
-
-        /* Chat Widget */
-        #chat-section {
-            background: var(--white);
-            border-radius: 30px;
-            padding: 0;
-            overflow: hidden;
-            border: 2px solid var(--primary-light);
-            box-shadow: var(--shadow);
-            display: flex;
-            flex-direction: column;
-            height: 700px;
-            max-width: 900px;
-            margin: 100px auto;
-        }
-
-        .chat-header {
-            padding: 20px 40px;
-            background: var(--primary);
-            color: var(--white);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .api-key-input {
-            padding: 8px 15px;
-            border-radius: 8px;
-            border: none;
-            font-size: 0.8rem;
-            width: 200px;
-        }
-
-        .chat-messages {
-            flex-grow: 1;
-            padding: 30px;
-            overflow-y: auto;
-            background: var(--base);
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .msg {
-            max-width: 80%;
-            padding: 15px 20px;
-            border-radius: 20px;
-            position: relative;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .msg-sunny {
-            align-self: flex-start;
-            background: var(--white);
-            border: 1px solid var(--primary-light);
-            border-bottom-left-radius: 2px;
-        }
-
-        .msg-user {
-            align-self: flex-end;
-            background: var(--primary);
-            color: var(--white);
-            border-bottom-right-radius: 2px;
-        }
-
-        .sunny-avatar {
-            position: absolute;
-            left: -25px;
-            bottom: 0;
-            background: var(--white);
-            border: 1px solid var(--primary);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        .chat-input-area {
-            padding: 20px;
-            background: var(--white);
-            display: flex;
-            gap: 10px;
-            border-top: 1px solid var(--primary-light);
-        }
-
-        .chat-input-area input {
-            flex-grow: 1;
-            padding: 15px;
-            border-radius: 12px;
-            border: 2px solid var(--primary-light);
-            outline: none;
-        }
-
-        .chat-input-area input:focus { border-color: var(--primary); }
-
-        .typing-indicator {
-            display: none;
-            padding: 10px;
-            gap: 5px;
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            background: var(--primary);
-            border-radius: 50%;
-            animation: blink 1.4s infinite both;
-        }
-
-        .dot:nth-child(2) { animation-delay: 0.2s; }
-        .dot:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes blink { 0%, 80%, 100% { opacity: 0; } 40% { opacity: 1; } }
-
-        .order-summary-card {
-            background: #fff;
-            border: 2px dashed var(--accent);
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 15px;
-        }
-
-        /* Quotation Form */
-        .quote-form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--secondary); }
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1.5px solid var(--primary-light);
-            outline: none;
-        }
-
-        /* About / Story */
-        .story-content { text-align: center; max-width: 800px; margin: 0 auto; }
-        .trust-badges {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 50px;
-            flex-wrap: wrap;
-        }
-
-        .badge-item { text-align: center; font-weight: 700; color: var(--white); }
-        .badge-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--secondary);
-            color: var(--white);
-            padding: 60px 40px;
-            text-align: center;
-        }
-
-        .footer-logo { font-size: 2.5rem; margin-bottom: 10px; }
-        .footer-links { display: flex; justify-content: center; gap: 30px; margin: 30px 0; flex-wrap: wrap; }
-        .footer-links a { color: var(--white); text-decoration: none; font-size: 0.9rem; }
-        .social-icons { display: flex; justify-content: center; gap: 20px; font-size: 1.5rem; margin-top: 20px; }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: var(--base); padding: 20px; border-bottom: 2px solid var(--primary-light); }
-            .nav-links.active { display: flex; }
-            .hamburger { display: flex; }
-            #hero { min-height: 80vh; }
-            .hero-btns { flex-direction: column; width: 100%; max-width: 300px; }
-            .grid-dashboard { grid-template-columns: 1fr; }
-            section { padding: 60px 20px; }
-        }
-
-        /* Quotation Document Print Styles */
         #quotation-output {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #fff;
-            z-index: 2000;
-            padding: 50px;
-            overflow-y: auto;
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: auto;
+          background: #fff !important;
+          z-index: 99999;
+          padding: 0 !important;
         }
-
-        .quotation-doc {
-            max-width: 800px;
-            margin: 0 auto;
-            border: 2px solid #eee;
-            padding: 40px;
-            font-family: 'Lato', sans-serif;
-            color: #333;
+        .no-print {
+          display: none !important;
         }
-
-        .quote-header {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 3px solid var(--primary);
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-        }
-
-        .quote-info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .item-row {
-            display: grid;
-            grid-template-columns: 3fr 1fr 1fr 1fr;
-            border-bottom: 1px solid #eee;
-            padding: 10px 0;
-            font-weight: 700;
-        }
-
-        .item-header { background: #f9f9f9; padding: 10px; border-top: 1px solid #eee; }
-
-        .totals-block { margin-top: 30px; text-align: right; }
-        .grand-total { font-size: 1.5rem; color: var(--accent); font-weight: 900; margin-top: 10px; }
-
-        .terms { font-size: 0.75rem; margin-top: 50px; color: #777; line-height: 1.4; border-top: 1px solid #eee; padding-top: 20px; }
-
-        @media print {
-            body * { visibility: hidden; }
-            #quotation-output, #quotation-output * { visibility: visible; }
-            #quotation-output { position: absolute; left: 0; top: 0; }
-            .no-print { display: none !important; }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body class="min-h-screen">
 
-    <nav id="top-nav">
-        <a href="#" class="brand-font nav-logo">Sweetlone Chickens</a>
-        <div class="nav-links">
-            <a href="#hero">Home</a>
-            <a href="#dashboard">Farm Live</a>
-            <a href="#pricing">Pricing</a>
-            <a href="#chat-section">Chat With Sunny</a>
-            <a href="#quotation">Get Quote</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
-        </div>
-        <div class="hamburger" onclick="toggleNav()">
-            <span></span><span></span><span></span>
-        </div>
+    <!-- TOP NAVIGATION BAR -->
+    <nav id="top-nav" class="fixed top-0 left-0 w-full bg-[#FFF8F5]/95 backdrop-blur-[10px] z-[1000] border-b-2 border-primary-light px-6 md:px-12 py-4 flex justify-between items-center transition-all duration-350">
+      <a href="#" class="brand-font text-2xl text-secondary no-underline font-bold" id="nav-brand-logo">Sweetlone Chickens</a>
+      
+      <!-- Desktop & Mobile Links -->
+      <div id="nav-links" class="hidden md:flex gap-8 items-center">
+        <a href="#hero" class="text-text-dark font-bold text-sm uppercase tracking-wider hover:text-accent transition duration-300">Home</a>
+        <a href="#dashboard" class="text-text-dark font-bold text-sm uppercase tracking-wider hover:text-accent transition duration-300">Farm Live</a>
+        <a href="#pricing" class="text-text-dark font-bold text-sm uppercase tracking-wider hover:text-accent transition duration-300">Pricing</a>
+        <a href="#chat-outer" class="text-text-dark font-bold text-sm uppercase tracking-wider hover:text-accent transition duration-300">Chat With Sunny</a>
+        <a href="#quotation" class="text-text-dark font-bold text-sm uppercase tracking-wider hover:text-accent transition duration-300">Get Quote</a>
+        <a href="#about" class="text-text-dark font-bold text-sm uppercase tracking-wider hover:text-accent transition duration-300">About</a>
+        <a href="#contact" class="text-text-dark font-bold text-sm uppercase tracking-wider hover:text-accent transition duration-300">Contact</a>
+      </div>
+
+      <!-- Hamburger toggle button -->
+      <button id="hamburger-btn" class="flex flex-col gap-1.5 md:hidden cursor-pointer bg-transparent border-none outline-none focus:outline-none" aria-label="Toggle navigation menu">
+        <span class="w-6 h-[3px] bg-secondary rounded-sm transition-all duration-300" id="hb-line1"></span>
+        <span class="w-6 h-[3px] bg-secondary rounded-sm transition-all duration-300" id="hb-line2"></span>
+        <span class="w-6 h-[3px] bg-secondary rounded-sm transition-all duration-300" id="hb-line3"></span>
+      </button>
+
+      <!-- Mobile dropdown navigation drawer -->
+      <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-base border-b-2 border-primary-light flex-col p-6 gap-4 text-center shadow-lg transition-all duration-300">
+        <a href="#hero" class="mobile-nav-link text-text-dark font-bold text-sm uppercase tracking-wider block py-2 hover:text-accent">Home</a>
+        <a href="#dashboard" class="mobile-nav-link text-text-dark font-bold text-sm uppercase tracking-wider block py-2 hover:text-accent">Farm Live</a>
+        <a href="#pricing" class="mobile-nav-link text-text-dark font-bold text-sm uppercase tracking-wider block py-2 hover:text-accent">Pricing</a>
+        <a href="#chat-outer" class="mobile-nav-link text-text-dark font-bold text-sm uppercase tracking-wider block py-2 hover:text-accent">Chat With Sunny</a>
+        <a href="#quotation" class="mobile-nav-link text-text-dark font-bold text-sm uppercase tracking-wider block py-2 hover:text-accent">Get Quote</a>
+        <a href="#about" class="mobile-nav-link text-text-dark font-bold text-sm uppercase tracking-wider block py-2 hover:text-accent">About</a>
+        <a href="#contact" class="mobile-nav-link text-text-dark font-bold text-sm uppercase tracking-wider block py-2 hover:text-accent">Contact</a>
+      </div>
     </nav>
 
-    <!-- SECTION 1: HERO -->
-    <section id="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">Sweetlone Chickens</h1>
-            <p class="hero-tagline">Farm Fresh. Family Raised.</p>
-            <div class="hero-btns">
-                <a href="#pricing" class="btn btn-primary">Buy Chickens</a>
-                <a href="#chat-section" class="btn btn-secondary">Talk to Our Agent</a>
-            </div>
+    <!-- SECTION 1: HERO CONTAINER -->
+    <section id="hero" class="relative min-h-screen py-0 px-4 flex flex-col justify-center items-center text-center bg-gradient-to-br from-primary-light via-base to-base overflow-hidden max-w-none">
+      <div class="z-10 px-4 max-w-4xl" id="hero-main-content">
+        <h1 class="text-5xl md:text-8xl text-secondary mb-6 font-bold leading-tight drop-shadow-sm" id="hero-title">Sweetlone Chickens</h1>
+        <p class="text-xl md:text-2xl text-text-dark italic mb-10 drop-shadow-xs" id="hero-tagline">Farm Fresh. Family Raised.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center" id="hero-actions">
+          <a href="#pricing" class="w-full sm:w-auto px-8 py-4 bg-primary text-white font-bold rounded-full hover:bg-accent transition transform hover:-translate-y-1 block shadow-[0_4px_15px_rgba(244,167,185,0.4)]" id="hero-btn-buy">Buy Chickens</a>
+          <a href="#chat-outer" class="w-full sm:w-auto px-8 py-4 bg-white text-secondary border-2 border-secondary font-bold rounded-full hover:bg-primary-light hover:border-primary transition block" id="hero-btn-chat">Talk to Our Agent</a>
         </div>
+      </div>
 
-        <!-- Decorative elements -->
-        <div id="feather-container"></div>
-        <svg class="farm-silhouette" viewBox="0 0 1200 100" preserveAspectRatio="none">
-            <path d="M0,100 L1200,100 L1200,80 C1100,75 1050,40 1000,50 C950,60 900,20 850,30 C800,40 750,70 700,75 C650,80 600,40 550,50 C500,60 450,20 400,30 C350,40 300,70 250,75 C200,80 150,40 100,50 C50,60 0,20 0,30 Z"></path>
-        </svg>
+      <!-- Floating feathers layout decorations -->
+      <div id="feather-container" class="absolute inset-0 pointer-events-none z-1">
+        <div class="floating-feather" style="left: 10%; top: 20%; animation-delay: 0s;">
+          <svg viewBox="0 0 24 24"><path d="M12 2C12 2 10 4 10 7C10 11 12 15 12 15C12 15 14 11 14 7C14 4 12 2 12 2Z" /></svg>
+        </div>
+        <div class="floating-feather" style="left: 80%; top: 15%; animation-delay: 1.5s;">
+          <svg viewBox="0 0 24 24"><path d="M12 2C12 2 10 4 10 7C10 11 12 15 12 15C12 15 14 11 14 7C14 4 12 2 12 2Z" /></svg>
+        </div>
+        <div class="floating-feather" style="left: 30%; top: 70%; animation-delay: 3s;">
+          <svg viewBox="0 0 24 24"><path d="M12 2C12 2 10 4 10 7C10 11 12 15 12 15C12 15 14 11 14 7C14 4 12 2 12 2Z" /></svg>
+        </div>
+        <div class="floating-feather" style="left: 70%; top: 60%; animation-delay: 4.5s;">
+          <svg viewBox="0 0 24 24"><path d="M12 2C12 2 10 4 10 7C10 11 12 15 12 15C12 15 14 11 14 7C14 4 12 2 12 2Z" /></svg>
+        </div>
+        <div class="floating-feather" style="left: 45%; top: 10%; animation-delay: 2.2s;">
+          <svg viewBox="0 0 24 24"><path d="M12 2C12 2 10 4 10 7C10 11 12 15 12 15C12 15 14 11 14 7C14 4 12 2 12 2Z" /></svg>
+        </div>
+      </div>
+
+      <!-- Farm silhouette graphic in background -->
+      <svg class="absolute bottom-0 left-0 w-full fill-secondary opacity-5 pointer-events-none" viewBox="0 0 1200 100" preserveAspectRatio="none">
+        <path d="M0,100 L1200,100 L1200,80 C1100,75 1050,40 1000,50 C950,60 900,20 850,30 C800,40 750,70 700,75 C650,80 600,40 550,50 C500,60 450,20 400,30 C350,40 300,70 250,75 C200,80 150,40 100,50 C50,60 0,20 0,30 Z"></path>
+      </svg>
     </section>
 
-    <!-- SECTION 2: LIVE DASHBOARD -->
-    <section id="dashboard">
-        <div class="container">
-            <h2 style="text-align: center; margin-bottom: 10px; color: var(--secondary);">Live From The Farm</h2>
-            <p style="text-align: center; margin-bottom: 50px;">Real-time conditions from our luxury coops.</p>
-            
-            <div class="grid-dashboard">
-                <!-- Coop A -->
-                <div class="coop-card" id="coop-a">
-                    <div class="live-badge"><div class="pulse-dot"></div> LIVE</div>
-                    <h3>Coop A</h3>
-                    <div class="data-item">
-                        <label>🌡️ Temperature</label>
-                        <span class="data-val temp">21.5°C</span>
-                    </div>
-                    <div class="data-item">
-                        <label>💧 Humidity</label>
-                        <span class="data-val hum">62%</span>
-                    </div>
-                    <div class="status-badge status-optimal">Optimal</div>
-                </div>
-                <!-- Coop B -->
-                <div class="coop-card" id="coop-b">
-                    <div class="live-badge"><div class="pulse-dot"></div> LIVE</div>
-                    <h3>Coop B</h3>
-                    <div class="data-item">
-                        <label>🌡️ Temperature</label>
-                        <span class="data-val temp">22.1°C</span>
-                    </div>
-                    <div class="data-item">
-                        <label>💧 Humidity</label>
-                        <span class="data-val hum">58%</span>
-                    </div>
-                    <div class="status-badge status-optimal">Optimal</div>
-                </div>
-                <!-- Coop C -->
-                <div class="coop-card" id="coop-c">
-                    <div class="live-badge"><div class="pulse-dot"></div> LIVE</div>
-                    <h3>Coop C</h3>
-                    <div class="data-item">
-                        <label>🌡️ Temperature</label>
-                        <span class="data-val temp">19.8°C</span>
-                    </div>
-                    <div class="data-item">
-                        <label>💧 Humidity</label>
-                        <span class="data-val hum">65%</span>
-                    </div>
-                    <div class="status-badge status-optimal">Optimal</div>
-                </div>
-                <!-- Coop D -->
-                <div class="coop-card" id="coop-d">
-                    <div class="live-badge"><div class="pulse-dot"></div> LIVE</div>
-                    <h3>Coop D</h3>
-                    <div class="data-item">
-                        <label>🌡️ Temperature</label>
-                        <span class="data-val temp">20.4°C</span>
-                    </div>
-                    <div class="data-item">
-                        <label>💧 Humidity</label>
-                        <span class="data-val hum">61%</span>
-                    </div>
-                    <div class="status-badge status-optimal">Optimal</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 3: PRICING -->
-    <section id="pricing">
-        <div class="container">
-            <h2 style="text-align: center; margin-bottom: 40px; color: var(--secondary);">Our Birds, Our Prices</h2>
-            
-            <div class="pricing-table-container">
-                <div class="pricing-grid">
-                    <div class="price-card">
-                        <h4>1 – 9 birds</h4>
-                        <div class="price-tag">$6.00</div>
-                        <p>each</p>
-                    </div>
-                    <div class="price-card">
-                        <h4>10 – 14 birds</h4>
-                        <div class="price-tag">$5.50</div>
-                        <p>each</p>
-                    </div>
-                    <div class="price-card best-value">
-                        <div class="value-badge">Best Value</div>
-                        <h4>15+ birds</h4>
-                        <div class="price-tag">$5.00</div>
-                        <p>each</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="calculator-box">
-                <h3>Live Order Calculator</h3>
-                <p>How many birds are you looking for?</p>
-                <input type="number" id="calc-qty" class="calculator-input" value="1" min="1">
-                
-                <div class="calc-result">
-                    <div class="calc-item">
-                        <label>Price Per Bird</label>
-                        <span id="price-per-bird">$6.00</span>
-                    </div>
-                    <div class="calc-item">
-                        <label>Tier Benefit</label>
-                        <span id="tier-name">Standard</span>
-                    </div>
-                    <div class="calc-item">
-                        <label>Grand Total</label>
-                        <span id="calc-total">$6.00</span>
-                    </div>
-                    <div class="calc-item">
-                        <label>Total Savings</label>
-                        <span id="calc-savings" style="color: #166534;">$0.00</span>
-                    </div>
-                </div>
-                <button class="btn btn-primary" style="margin-top: 30px;" onclick="scrollToQuote()">Generate Quotation</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 4: AI AGENT -->
-    <section id="chat-outer">
-        <h2 style="text-align: center; margin-bottom: 40px; color: var(--secondary);">Chat With Our Sales Agent</h2>
+    <!-- SECTION 2: LIVE METRICS COOP CONDITIONS -->
+    <section id="dashboard" class="py-24 px-6 md:px-12 max-w-6xl mx-auto">
+      <div class="container text-center">
+        <h2 class="text-4xl text-secondary mb-3 font-bold" id="metrics-title">Live From The Farm</h2>
+        <p class="text-text-dark opacity-80 mb-12" id="metrics-subtitle">Real-time climate conditions from our luxury chicken coops.</p>
         
-        <div id="chat-section">
-            <div class="chat-header">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <span style="font-size: 1.5rem;">🐔</span>
-                    <div>
-                        <strong style="display: block;">Sunny</strong>
-                        <span style="font-size: 0.7rem; opacity: 0.8;">Online | Sweetlone Assistant</span>
-                    </div>
-                </div>
-                <div>
-                   <input type="password" id="claude-key" class="api-key-input" placeholder="Paste Claude API Key here">
-                </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left" id="coops-grid">
+          
+          <!-- Coop A -->
+          <div class="bg-white p-8 rounded-3xl border-2 border-primary-light shadow-[0_8px_30px_rgba(0,0,0,0.03)] hover:-translate-y-1 hover:shadow-lg transition duration-300 relative overflow-hidden" id="card-coop-a">
+            <div class="flex items-center gap-2 text-green-500 font-extrabold text-xs mb-4">
+              <div class="pulse-dot"></div> LIVE
             </div>
-            
-            <div class="chat-messages" id="chat-display">
-                <div class="msg msg-sunny">
-                    <div class="sunny-avatar">🐔</div>
-                    Hello there! I'm Sunny, your Sweetlone Chickens sales agent. How many feathered friends can I help you bring home today?
-                </div>
+            <h3 class="text-2xl text-secondary mb-4 font-bold">Coop A</h3>
+            <div class="flex justify-between items-center mb-3 font-bold text-text-dark">
+              <span>🌡️ Temperature</span>
+              <span class="text-accent font-black" id="temp-coop-a">21.5°C</span>
             </div>
+            <div class="flex justify-between items-center mb-4 font-bold text-text-dark">
+              <span>💧 Humidity</span>
+              <span class="text-accent font-black" id="hum-coop-a">62%</span>
+            </div>
+            <div class="inline-block px-3 py-1 text-xs font-bold rounded-full bg-green-100 text-green-800" id="status-coop-a">Optimal</div>
+          </div>
 
-            <div class="typing-indicator" id="typing">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
+          <!-- Coop B -->
+          <div class="bg-white p-8 rounded-3xl border-2 border-primary-light shadow-[0_8px_30px_rgba(0,0,0,0.03)] hover:-translate-y-1 hover:shadow-lg transition duration-300 relative overflow-hidden" id="card-coop-b">
+            <div class="flex items-center gap-2 text-green-500 font-extrabold text-xs mb-4">
+              <div class="pulse-dot"></div> LIVE
             </div>
-            
-            <div class="chat-input-area">
-                <input type="text" id="user-input" placeholder="Type your message here..." onkeypress="handleKey(event)">
-                <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+            <h3 class="text-2xl text-secondary mb-4 font-bold">Coop B</h3>
+            <div class="flex justify-between items-center mb-3 font-bold text-text-dark">
+              <span>🌡️ Temperature</span>
+              <span class="text-accent font-black" id="temp-coop-b">22.1°C</span>
             </div>
+            <div class="flex justify-between items-center mb-4 font-bold text-text-dark">
+              <span>💧 Humidity</span>
+              <span class="text-accent font-black" id="hum-coop-b">58%</span>
+            </div>
+            <div class="inline-block px-3 py-1 text-xs font-bold rounded-full bg-green-100 text-green-800" id="status-coop-b">Optimal</div>
+          </div>
+
+          <!-- Coop C -->
+          <div class="bg-white p-8 rounded-3xl border-2 border-primary-light shadow-[0_8px_30px_rgba(0,0,0,0.03)] hover:-translate-y-1 hover:shadow-lg transition duration-300 relative overflow-hidden" id="card-coop-c">
+            <div class="flex items-center gap-2 text-green-500 font-extrabold text-xs mb-4">
+              <div class="pulse-dot"></div> LIVE
+            </div>
+            <h3 class="text-2xl text-secondary mb-4 font-bold">Coop C</h3>
+            <div class="flex justify-between items-center mb-3 font-bold text-text-dark">
+              <span>🌡️ Temperature</span>
+              <span class="text-accent font-black" id="temp-coop-c">19.8°C</span>
+            </div>
+            <div class="flex justify-between items-center mb-4 font-bold text-text-dark">
+              <span>💧 Humidity</span>
+              <span class="text-accent font-black" id="hum-coop-c">65%</span>
+            </div>
+            <div class="inline-block px-3 py-1 text-xs font-bold rounded-full bg-green-100 text-green-800" id="status-coop-c">Optimal</div>
+          </div>
+
+          <!-- Coop D -->
+          <div class="bg-white p-8 rounded-3xl border-2 border-primary-light shadow-[0_8px_30px_rgba(0,0,0,0.03)] hover:-translate-y-1 hover:shadow-lg transition duration-300 relative overflow-hidden" id="card-coop-d">
+            <div class="flex items-center gap-2 text-green-500 font-extrabold text-xs mb-4">
+              <div class="pulse-dot"></div> LIVE
+            </div>
+            <h3 class="text-2xl text-secondary mb-4 font-bold">Coop D</h3>
+            <div class="flex justify-between items-center mb-3 font-bold text-text-dark">
+              <span>🌡️ Temperature</span>
+              <span class="text-accent font-black" id="temp-coop-d">20.4°C</span>
+            </div>
+            <div class="flex justify-between items-center mb-4 font-bold text-text-dark">
+              <span>💧 Humidity</span>
+              <span class="text-accent font-black" id="hum-coop-d">61%</span>
+            </div>
+            <div class="inline-block px-3 py-1 text-xs font-bold rounded-full bg-green-100 text-green-800" id="status-coop-d">Optimal</div>
+          </div>
+
         </div>
+      </div>
     </section>
 
-    <!-- SECTION 5: QUOTATION GENERATOR -->
-    <section id="quotation">
-        <div class="container" style="background: var(--white); padding: 50px; border-radius: 30px; box-shadow: var(--shadow); border: 2px solid var(--primary-light);">
-            <h2 style="margin-bottom: 20px; color: var(--secondary);">Download Your Quotation</h2>
-            <p style="margin-bottom: 40px;">Ready to proceed? Fill in your details to generate a formal quote.</p>
-            
-            <form id="quote-form" onsubmit="generateQuote(event)">
-                <div class="quote-form-grid">
-                    <div class="form-group">
-                        <label>Full Name *</label>
-                        <input type="text" id="q-name" required placeholder="John Doe">
-                    </div>
-                    <div class="form-group">
-                        <label>Company Name</label>
-                        <input type="text" id="q-company" placeholder="Optional">
-                    </div>
-                    <div class="form-group">
-                        <label>Email Address *</label>
-                        <input type="email" id="q-email" required placeholder="john@example.com">
-                    </div>
-                    <div class="form-group">
-                        <label>Phone Number *</label>
-                        <input type="tel" id="q-phone" required placeholder="+1 234 567 890">
-                    </div>
-                    <div class="form-group">
-                        <label>Number of Birds *</label>
-                        <input type="number" id="q-birds" required min="1" value="1">
-                    </div>
-                    <div class="form-group">
-                        <label>Preferred Delivery Date</label>
-                        <input type="date" id="q-date">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Special Requirements</label>
-                    <textarea id="q-notes" rows="4" placeholder="Breed preferences, delivery instructions, etc."></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Formal Quotation</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- SECTION 6: ABOUT -->
-    <section id="about" style="background: var(--secondary); max-width: none; color: var(--white);">
-        <div class="container story-content">
-            <h2 style="color: var(--primary); margin-bottom: 30px;">Our Story</h2>
-            <p style="font-size: 1.2rem; line-height: 1.8;">
-                At Sweetlone Chickens, we believe every bird deserves a life filled with sunshine and care. Founded on our family farm over a decade ago, we've dedicated ourselves to raising premium, healthy, and happy chickens. Our high-tech coops and ethical farming practices ensure that every "Sweetlone bird" you take home is raised with the utmost respect for nature and quality.
-            </p>
-            
-            <div class="trust-badges">
-                <div class="badge-item">
-                    <span class="badge-icon">🐔</span>
-                    Ethically Raised
-                </div>
-                <div class="badge-item">
-                    <span class="badge-icon">🌿</span>
-                    Natural Feed
-                </div>
-                <div class="badge-item">
-                    <span class="badge-icon">❤️</span>
-                    Family Run
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 7: CONTACT -->
-    <section id="contact">
-        <div class="container">
-            <div class="grid-dashboard" style="grid-template-columns: 1fr 1fr;">
-                <div>
-                    <h2 style="color: var(--secondary); margin-bottom: 30px;">Get In Touch</h2>
-                    <p style="margin-bottom: 20px;"><strong>📍 Address:</strong> 42 Sweetlone Farm Rd, Rural Valley</p>
-                    <p style="margin-bottom: 20px;"><strong>📧 Email:</strong> hello@sweetlonechickens.com</p>
-                    <p style="margin-bottom: 20px;"><strong>📞 Phone:</strong> +1 (555) 012-3456</p>
-                    
-                    <h4 style="margin: 30px 0 15px;">Business Hours</h4>
-                    <p>Mon - Fri: 8:00 AM - 5:00 PM</p>
-                    <p>Sat: 9:00 AM - 2:00 PM</p>
-                    <p>Sun: Closed</p>
-                </div>
-                <div style="background: var(--primary-light); border-radius: 24px; padding: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 20px;">📍</div>
-                    <h3>Find Us On The Farm</h3>
-                    <p style="opacity: 0.7;">Maps Integration Disabled for Demo</p>
-                    <div style="width: 100%; height: 2px; background: var(--primary); margin: 20px 0;"></div>
-                    <p>Follow the pink flags after the main gate!</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-logo brand-font">Sweetlone Chickens</div>
-        <p>Farm Fresh. Family Raised.</p>
+    <!-- SECTION 3: PRICING CARD MATRIX & LIVE CALCULATOR -->
+    <section id="pricing" class="py-24 px-6 md:px-12 max-w-6xl mx-auto">
+      <div class="container">
+        <h2 class="text-4xl text-secondary text-center mb-12 font-bold" id="pricing-title">Our Birds, Our Prices</h2>
         
-        <div class="footer-links">
-            <a href="#hero">Home</a>
-            <a href="#dashboard">Farm Live</a>
-            <a href="#pricing">Pricing</a>
-            <a href="#chat-section">Chat</a>
-            <a href="#quotation">Quotation</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
+        <!-- Interactive pricing tables -->
+        <div class="bg-white rounded-3xl p-6 md:p-10 border-2 border-primary-light shadow-[0_8px_30px_rgba(0,0,0,0.03)] mb-12" id="pricing-container">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Standard tier card -->
+            <div class="p-8 rounded-2xl border border-primary-light text-center flex flex-col justify-center items-center" id="tier-standard">
+              <h4 class="text-lg font-bold mb-3 text-secondary">Standard </h4>
+              <p class="text-sm font-bold opacity-60 mb-2">1 – 9 birds</p>
+              <div class="text-5xl text-secondary font-black" id="standard-price-tag">$5.00</div>
+              <p class="text-sm italic opacity-80 mt-2">each</p>
+            </div>
+
+            <!-- Middle tier card -->
+            <div class="p-8 rounded-2xl border border-primary-light text-center flex flex-col justify-center items-center" id="tier-middle">
+              <h4 class="text-lg font-bold mb-3 text-secondary">Best Value</h4>
+              <p class="text-sm font-bold opacity-60 mb-2">10 – 17 birds</p>
+              <div class="text-5xl text-secondary font-black" id="middle-price-tag">$4.50</div>
+              <p class="text-sm italic opacity-80 mt-2">each</p>
+            </div>
+
+            <!-- Best value tier card -->
+            <div class="p-8 rounded-2xl border-3 border-primary relative text-center flex flex-col justify-center items-center bg-[#FFFBF9]" id="tier-best">
+              <div class="absolute -top-3.5 left-1/2 transform -translate-x-1/2 bg-accent text-white px-4 py-1 rounded-full text-xs font-black uppercase tracking-wider">Best Value</div>
+              <h4 class="text-lg font-bold mb-3 text-secondary">Bulk Saver</h4>
+              <p class="text-sm font-bold opacity-60 mb-2">18+ birds</p>
+              <div class="text-5xl text-secondary font-black" id="best-price-tag">$4.00</div>
+              <p class="text-sm italic opacity-80 mt-2">each</p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Dynamic calculator box -->
+        <div class="bg-primary-light/50 p-8 rounded-3xl text-center max-w-2xl mx-auto border-2 border-primary-light shadow-xs" id="calculator-portal">
+          <h3 class="text-2xl text-secondary font-bold mb-2">Live Order Calculator</h3>
+          <p class="text-text-dark opacity-85 mb-4 text-sm font-medium">How many premium chickens would you like to buy?</p>
+          
+          <input 
+            type="number" 
+            id="calc-qty-input" 
+            class="calculator-input w-36 px-4 py-3 border-2 border-primary rounded-xl text-2xl font-black text-center mx-auto block bg-white focus:outline-none focus:border-accent" 
+            value="17" 
+            min="1" 
+          />
+          
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8" id="calc-metrics-grid">
+            <div class="calc-item flex flex-col items-center">
+              <label class="block text-xs font-bold text-secondary uppercase tracking-wider mb-1">Price Per Bird</label>
+              <span class="text-2xl font-black brand-font" id="live-calc-price">$4.50</span>
+            </div>
+            <div class="calc-item flex flex-col items-center">
+              <label class="block text-xs font-bold text-secondary uppercase tracking-wider mb-1">Tier Benefit</label>
+              <span class="text-xl font-bold brand-font text-center truncate w-full" id="live-calc-tier">Middle Tier</span>
+            </div>
+            <div class="calc-item flex flex-col items-center">
+              <label class="block text-xs font-bold text-secondary uppercase tracking-wider mb-1">Grand Total</label>
+              <span class="text-2xl font-black brand-font" id="live-calc-total">$76.50</span>
+            </div>
+            <div class="calc-item flex flex-col items-center">
+              <label class="block text-xs font-bold text-secondary uppercase tracking-wider mb-1">Total Savings</label>
+              <span class="text-2xl font-black brand-font text-green-700" id="live-calc-savings">-$8.50</span>
+            </div>
+          </div>
+          
+          <button id="btn-calc-quote" class="mt-8 px-8 py-3 bg-secondary text-white font-bold rounded-full hover:bg-secondary-light transition duration-300">Generate Formal Quotation</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 4: AI CHAT AGENT CHATBOX -->
+    <section id="chat-outer" class="py-24 px-6 md:px-12 max-w-5xl mx-auto">
+      <h2 class="text-4xl text-secondary text-center mb-10 font-bold" id="chat-title">Chat With Our Sales Agent</h2>
+      
+      <!-- Premium chatbot widget -->
+      <div id="chat-section" class="bg-white rounded-[30px] border-2 border-primary-light shadow-[0_8px_30px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col h-[650px] max-w-4xl mx-auto">
+        
+        <!-- Header area -->
+        <div class="px-6 md:px-10 py-5 bg-primary text-white flex flex-col sm:flex-row gap-4 justify-between items-center border-b border-primary-light" id="chat-header-bar">
+          <div class="flex items-center gap-3">
+            <span class="text-3xl">🐔</span>
+            <div>
+              <strong class="block text-lg font-bold leading-normal">Sunny</strong>
+              <span class="text-xs opacity-90 block">Online | Sweetlone Assistant</span>
+            </div>
+          </div>
+          <div class="text-xs bg-green-100 text-green-800 px-3 py-2 rounded-lg font-bold">
+🟢 Sunny AI Assistant Online
+</div>
         </div>
         
-        <div class="social-icons">
-            <span></span> <span></span> <span></span> <span></span>
+        <!-- Message box -->
+        <div class="flex-grow p-6 md:p-8 overflow-y-auto bg-[#FFFBF9] flex flex-col gap-5" id="chat-messages-box">
+          
+          <!-- Sunny greeting card -->
+          <div class="self-start max-w-[85%] bg-white border border-primary-light rounded-2xl rounded-bl-none p-4 relative pl-12 shadow-xs msg" id="welcome-msg">
+            <div class="absolute -left-5 bottom-0 bg-white border border-primary rounded-full w-10 h-10 flex items-center justify-center text-lg shadow-sm">🐔</div>
+            <p class="text-text-dark font-medium">Hello there! I'm Sunny, your Sweetlone Chickens sales agent. How many feathered friends can I help you bring home today?</p>
+          </div>
+
         </div>
         
-        <p style="margin-top: 40px; font-size: 0.8rem; opacity: 0.5;">© 2025 Sweetlone Chickens. All rights reserved.</p>
+        <!-- Typist indicator -->
+        <div class="hidden px-14 py-2 self-start flex gap-1.5" id="chat-typing-indicator">
+          <div class="dot bg-primary w-2.5 h-2.5 rounded-full duration-1000"></div>
+          <div class="dot bg-primary w-2.5 h-2.5 rounded-full duration-1000" style="animation-delay: 0.2s;"></div>
+          <div class="dot bg-primary w-2.5 h-2.5 rounded-full duration-1000" style="animation-delay: 0.4s;"></div>
+        </div>
+
+        <!-- Footer input field -->
+        <div class="p-4 bg-white border-t border-primary-light flex gap-3" id="chat-input-row">
+          <input 
+            type="text" 
+            id="chat-user-input" 
+            class="flex-grow p-4 border-2 border-primary-light rounded-xl outline-none text-text-dark font-medium focus:border-primary" 
+            placeholder="Type your message to Sunny here..." 
+          />
+          <button id="chat-send-btn" class="px-6 py-4 bg-primary text-white font-bold rounded-xl hover:bg-accent transition duration-300">Send</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 5: FORMAL FORM CONTROLLER FOR QUOTATION -->
+    <section id="quotation" class="py-24 px-6 md:px-12 max-w-4xl mx-auto">
+      <div class="bg-white p-8 md:p-14 rounded-[30px] border-2 border-primary-light shadow-[0_8px_30px_rgba(0,0,0,0.05)] mx-auto" id="quote-form-container">
+        <h2 class="text-3xl text-secondary mb-3 font-bold">Download Your Quotation</h2>
+        <p class="text-text-dark opacity-80 mb-10 leading-relaxed font-medium">Create a beautifully formatted official quotation document ready for direct PDF saving or physical printing.</p>
+        
+        <form id="quote-generator-form" class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <div class="form-group flex flex-col">
+              <label class="text-sm font-bold text-secondary mb-2">Full Customer Name *</label>
+              <input type="text" id="form-name" required placeholder="John Doe" class="px-4 py-3 border border-primary-light rounded-xl outline-none text-[#000] font-medium focus:border-primary" />
+            </div>
+
+            <div class="form-group flex flex-col">
+              <label class="text-sm font-bold text-secondary mb-2">Company Name</label>
+              <input type="text" id="form-company" placeholder="Optional" class="px-4 py-3 border border-primary-light rounded-xl outline-none text-[#000] font-medium focus:border-primary" />
+            </div>
+
+            <div class="form-group flex flex-col">
+              <label class="text-sm font-bold text-secondary mb-2">Email Address *</label>
+              <input type="email" id="form-email" required placeholder="john@example.com" class="px-4 py-3 border border-primary-light rounded-xl outline-none text-[#000] font-medium focus:border-primary" />
+            </div>
+
+            <div class="form-group flex flex-col">
+              <label class="text-sm font-bold text-secondary mb-2">Phone Number *</label>
+              <input type="text" id="form-phone" required placeholder="+263 776 522 220" class="px-4 py-3 border border-primary-light rounded-xl outline-none text-[#000] font-medium focus:border-primary" />
+            </div>
+
+            <div class="form-group flex flex-col">
+              <label class="text-sm font-bold text-secondary mb-2">Number of Birds *</label>
+              <input type="number" id="form-qty" required min="1" value="17" class="px-4 py-3 border border-primary-light rounded-xl outline-none text-[#000] font-medium focus:border-primary" />
+            </div>
+
+            <div class="form-group flex flex-col">
+              <label class="text-sm font-bold text-secondary mb-2">Preferred Delivery/Pickup Date</label>
+              <input type="date" id="form-delivery-date" class="px-4 py-3 border border-primary-light rounded-xl outline-none text-[#000] font-medium focus:border-primary" />
+            </div>
+
+          </div>
+
+          <div class="form-group flex flex-col">
+            <label class="text-sm font-bold text-secondary mb-2">Special Requirements / Notes</label>
+            <textarea id="form-notes" rows="4" placeholder="Mention preferred chicken breeds, ages, delivery details, pickup preferences, or any other farm requirements..." class="px-4 py-3 border border-primary-light rounded-xl outline-none text-[#000] font-medium focus:border-primary"></textarea>
+          </div>
+
+          <button type="submit" class="w-full py-4 bg-primary text-white font-bold rounded-xl hover:bg-accent transition duration-300 shadow-sm" id="form-submit-btn">Create Formal Quotation Document</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- SECTION 6: STORY & HISTORY -->
+    <section id="about" class="py-24 px-6 md:px-12 bg-secondary max-w-none text-white text-center">
+      <div class="max-w-3xl mx-auto" id="story-block">
+        <h2 class="text-4xl text-primary mb-6 font-bold">Our Story</h2>
+        <p class="text-lg md:text-xl leading-relaxed opacity-95 font-medium mb-12">At Sweetlone Chickens, we believe every bird deserves a life filled with sunshine, premium natural feed, and care. Founded on our beautiful farm over a decade ago, we've dedicated ourselves to raising premium, healthy, and happy family chickens. Our high-tech coops and ethical farming processes guarantee that every "Sweetlone bird" you purchase is robust and raised with love.</p>
+        
+        <div class="flex flex-wrap justify-center gap-10 md:gap-14" id="badge-container">
+          <div class="flex flex-col items-center">
+            <span class="text-5xl mb-3 block">🐔</span>
+            <span class="font-bold tracking-wide">Ethically Raised</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <span class="text-5xl mb-3 block">🌿</span>
+            <span class="font-bold tracking-wide">Natural Feed Only</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <span class="text-5xl mb-3 block">❤️</span>
+            <span class="font-bold tracking-wide">Family Owned Farm</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    //Customer Review section
+    <section id="reviews" class="py-24 px-6 md:px-12 max-w-5xl mx-auto">
+
+<h2 class="text-4xl text-secondary text-center mb-10 font-bold">
+Customer Reviews
+</h2>
+
+<div class="text-center mb-8">
+<h3 class="text-5xl font-black text-secondary">
+4.9 ⭐
+</h3>
+<p>Based on Customer Feedback</p>
+</div>
+
+<div class="bg-white p-8 rounded-3xl border-2 border-primary-light">
+
+<input
+id="review-name"
+placeholder="Your Name"
+class="w-full p-3 border rounded-xl mb-4"
+/>
+
+<select
+id="review-stars"
+class="w-full p-3 border rounded-xl mb-4"
+>
+<option value="5">★★★★★</option>
+<option value="4">★★★★☆</option>
+<option value="3">★★★☆☆</option>
+<option value="2">★★☆☆☆</option>
+<option value="1">★☆☆☆☆</option>
+</select>
+
+<textarea
+id="review-text"
+placeholder="Share your experience"
+class="w-full p-3 border rounded-xl mb-4"
+></textarea>
+
+<input
+type="file"
+id="review-images"
+multiple
+accept="image/*"
+class="mb-4"
+/>
+
+<button
+id="submit-review"
+class="bg-primary text-white px-6 py-3 rounded-xl"
+>
+Submit Review
+</button>
+
+</div>
+
+<div id="reviews-list" class="mt-8"></div>
+
+</section>
+
+    <!-- SECTION 7: CONTACT AND LOCATION INFO -->
+    <section id="contact" class="py-24 px-6 md:px-12 max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12" id="contact-wrapper">
+        <div class="flex flex-col justify-center" id="contact-details">
+          <h2 class="text-4xl text-secondary mb-8 font-bold">Get In Touch</h2>
+          <p class="text-base text-text-dark mb-4"><strong class="text-secondary text-lg">📍 Address:</strong><br />1515 Carsroad Rd, Crowhill (Near Sebam Service Station), Borrowdale North, Harare</p>
+          <p class="text-base text-text-dark mb-4"><strong class="text-secondary text-lg">📧 Email:</strong><br /><a href="mailto:sweetlone112@gmail.com" class="hover:text-accent font-medium underline">sweetlone112@gmail.com</a></p>
+          <p class="text-base text-text-dark mb-8"><strong class="text-secondary text-lg">📞 Phone:</strong><br /><a href="tel:+263776522220" class="hover:text-accent font-medium underline">+263 776 522 220</a></p>
+          
+          <h4 class="text-lg font-black text-secondary mb-3 uppercase tracking-wider">Business Hours</h4>
+          <p class="text-text-dark opacity-90 font-medium">Monday - Friday: 8:00 AM - 5:00 PM</p>
+          <p class="text-text-dark opacity-90 font-medium">Saturday: 9:00 AM - 2:00 PM</p>
+          <p class="text-text-dark opacity-90 font-medium">Sunday: Closed</p>
+        </div>
+
+        <div class="bg-primary-light/50 rounded-3xl p-8 md:p-12 flex flex-col justify-center items-center text-center border-2 border-primary-light shadow-xs" id="map-fallback">
+          <span class="text-6xl mb-4 block">📍</span>
+          <h3 class="text-2xl text-secondary font-bold mb-3">Find Us On The Farm</h3>
+          <p class="text-text-dark opacity-75 mb-4 text-sm font-bold">Maps Integration Disabled for Demo</p>
+          <div class="w-full h-[2px] bg-primary my-4"></div>
+          <p class="text-secondary font-extrabold leading-normal mt-2">Just follow the bright pink flags right after the main gateway!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER BAR -->
+    <footer class="bg-secondary px-6 py-14 text-white text-center">
+      <div class="brand-font text-3xl font-extrabold mb-2" id="footer-logo">Sweetlone Chickens</div>
+      <p class="text-sm italic opacity-85 mb-8" id="footer-tagline">Farm Fresh. Family Raised.</p>
+      
+      <div class="flex flex-wrap justify-center gap-6 mb-10 text-xs font-bold uppercase tracking-wider" id="footer-links-row">
+        <a href="#hero" class="hover:text-primary transition">Home</a>
+        <a href="#dashboard" class="hover:text-primary transition">Farm Live</a>
+        <a href="#pricing" class="hover:text-primary transition">Pricing</a>
+        <a href="#chat-outer" class="hover:text-primary transition">Chat</a>
+        <a href="#quotation" class="hover:text-primary transition">Quotation</a>
+        <a href="#about" class="hover:text-primary transition">About</a>
+        <a href="#contact" class="hover:text-primary transition">Contact</a>
+      </div>
+      
+      <p class="text-xs opacity-50 mt-10" id="footer-copyright">© 2026 Sweetlone Chickens. All rights reserved.</p>
     </footer>
 
-    <!-- Quotation Output (Hidden by default) -->
-    <div id="quotation-output">
-        <div class="no-print" style="margin-bottom: 30px; display: flex; gap: 20px;">
-            <button class="btn btn-primary" onclick="window.print()">Print / Save PDF</button>
-            <button class="btn btn-secondary" onclick="closeQuote()">Close Preview</button>
+    <!-- QUOTATION DOCUMENT OVERLAY (Controlled interactively via vanilla JS state) -->
+    <div id="quotation-output" class="hidden fixed inset-0 w-full h-full bg-white z-[2000] p-6 md:p-12 overflow-y-auto">
+      <div class="no-print max-w-4xl mx-auto mb-8 flex justify-end gap-4" id="overlay-control-actions">
+        <button id="btn-print-overlay" class="px-6 py-3 bg-primary text-white font-bold rounded-full hover:bg-accent transition transform hover:-translate-y-0.5 pointer shadow-md shadow-primary/25">Print / Save PDF</button>
+        <button id="btn-close-overlay" class="px-6 py-3 bg-gray-200 text-secondary border border-gray-300 font-bold rounded-full hover:bg-gray-300 transition block">Close Preview</button>
+      </div>
+
+      <div class="quotation-doc max-w-3xl mx-auto border-2 border-gray-200 p-8 md:p-12 shadow-md bg-white text-gray-800 rounded-3xl" id="print-content">
+        <div class="quote-header flex justify-between border-b-4 border-primary pb-6 mb-8">
+          <div>
+            <h1 class="brand-font text-3xl text-secondary font-black" id="quote-doc-brand">Sweetlone Chickens</h1>
+            <p class="text-xs text-text-dark/80 italic mt-1 font-medium">Farm Fresh. Family Raised.</p>
+          </div>
+          <div class="text-right">
+            <h2 class="text-2xl font-black text-gray-700 tracking-wide">OFFICIAL QUOTATION</h2>
+            <p class="text-sm font-black text-gray-500 mt-1" id="qdoc-number">#SLC-2026-0000</p>
+          </div>
         </div>
-        <div class="quotation-doc" id="print-content">
-            <!-- Content injected via JS -->
+        
+        <div class="quote-info-grid grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 text-sm">
+          <div>
+            <strong class="text-xs text-gray-400 font-black tracking-wider uppercase block mb-2">ISSUED TO:</strong>
+            <p class="font-bold text-gray-800 text-base" id="qdoc-name">John Doe</p>
+            <p class="text-gray-600 font-medium" id="qdoc-company">Optional Company</p>
+            <p class="text-gray-600 font-medium" id="qdoc-email">john@example.com</p>
+            <p class="text-gray-600 font-medium" id="qdoc-phone">+263 776 522 220</p>
+          </div>
+          <div class="md:text-right">
+            <strong class="text-xs text-gray-400 font-black tracking-wider uppercase block mb-2">DETAILS:</strong>
+            <p class="text-gray-600 font-medium"><strong>Date Generated:</strong> <span id="qdoc-issue-date">28/5/2026</span></p>
+            <p class="text-gray-600 font-medium"><strong>Valid Until:</strong> <span id="qdoc-expiry-date">11/6/2026</span></p>
+            <p class="text-gray-600 font-medium"><strong>Expected delivery:</strong> <span id="qdoc-delivery-date">TBD</span></p>
+          </div>
         </div>
+
+        <div class="w-full mb-8">
+          <div class="grid grid-cols-4 bg-gray-50 p-3 rounded-t-xl text-left font-black text-xs text-secondary-light tracking-wide uppercase">
+            <div class="col-span-1">Description</div>
+            <div class="text-center">Qty</div>
+            <div class="text-right">Price Per Bird</div>
+            <div class="text-right">Total</div>
+          </div>
+          <div class="grid grid-cols-4 p-4 border-b border-gray-100 text-sm font-bold text-gray-700">
+            <div class="col-span-1">Premium Live Chickens</div>
+            <div class="text-center" id="qdoc-item-qty">17</div>
+            <div class="text-right" id="qdoc-item-price">$4.50</div>
+            <div class="text-right" id="qdoc-item-total">$76.50</div>
+          </div>
+        </div>
+
+        <div class="totals-block text-right mb-8">
+          <p class="text-sm font-semibold text-gray-500 mb-1">Subtotal: <span class="font-black text-gray-800" id="qdoc-subtotal">$85.00</span></p>
+          <p class="text-sm font-semibold text-gray-500 mb-2">Volume Benefit Savings: <span class="font-black text-green-700" id="qdoc-savings">-$8.50</span></p>
+          <div class="w-full md:w-80 ml-auto h-[1px] bg-gray-200 my-2"></div>
+          <div class="text-3xl font-black text-accent mt-3 leading-none" id="qdoc-grand-total">Total: $76.50</div>
+        </div>
+
+        <div class="mb-8 hidden" id="qdoc-notes-block">
+          <strong class="text-xs text-gray-400 font-black tracking-wider uppercase block mb-1">Special Notes:</strong>
+          <p class="text-sm text-gray-600 whitespace-pre-line font-medium leading-relaxed bg-gray-50 p-4 rounded-xl border border-gray-100" id="qdoc-notes">notes content</p>
+        </div>
+
+        <div class="terms text-[10px] text-gray-400 leading-relaxed font-semibold pt-6 border-t border-gray-100">
+          <strong class="text-gray-500 font-black tracking-wide block uppercase mb-1.5">TERMS & CONDITIONS:</strong>
+          <p>1. This quotation is valid for 14 days from the date of issue.</p>
+          <p>2. Prices are subject to availability at time of order confirmation.</p>
+          <p>3. A 50% deposit is required to confirm your order.</p>
+          <p>4. Balance payable on delivery or collection.</p>
+          <p>5. Live birds are sold as-is; Sweetlone Chickens is not liable for post-sale mortality.</p>
+          <p>6. Delivery charges may apply depending on location.</p>
+        </div>
+
+        <div class="mt-8 text-center text-xs font-bold text-secondary border-t border-gray-100 pt-6">
+          Thank you for choosing Sweetlone Chickens | Email: sweetlone112@gmail.com | Mobile: +263 776 522 220
+        </div>
+      </div>
     </div>
 
-    <!-- SCRIPTS -->
+    <!-- MAIN INTERACTIVE CLIENT SCRIPT -->
     <script>
-        // --- DATA SIMULATION ---
-        const coops = [
-            { id: 'coop-a', temp: 21.5, hum: 62 },
-            { id: 'coop-b', temp: 22.1, hum: 58 },
-            { id: 'coop-c', temp: 19.8, hum: 65 },
-            { id: 'coop-d', temp: 20.4, hum: 61 }
-        ];
+      // Navigation Menu Controller
+      const hamburgerBtn = document.getElementById('hamburger-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const hbLine1 = document.getElementById('hb-line1');
+      const hbLine2 = document.getElementById('hb-line2');
+      const hbLine3 = document.getElementById('hb-line3');
 
-        function updateCoopData() {
-            coops.forEach(coop => {
-                const el = document.getElementById(coop.id);
-                // Random drift
-                coop.temp += (Math.random() - 0.5) * 0.4;
-                coop.hum += (Math.random() - 0.5) * 1;
+      hamburgerBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+        mobileMenu.classList.toggle('flex');
+        hbLine1.classList.toggle('rotate-45');
+        hbLine1.classList.toggle('translate-y-[9px]');
+        hbLine2.classList.toggle('opacity-0');
+        hbLine3.classList.toggle('-rotate-45');
+        hbLine3.classList.toggle('-translate-y-[9px]');
+      });
 
-                // Clamping
-                if(coop.temp < 18) coop.temp = 18.2;
-                if(coop.temp > 24) coop.temp = 23.8;
-                if(coop.hum < 55) coop.hum = 56;
-                if(coop.hum > 75) coop.hum = 74;
+      // Close tray on link clicks
+      document.querySelectorAll('.mobile-nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden');
+          mobileMenu.classList.remove('flex');
+          hbLine1.classList.remove('rotate-45', 'translate-y-[9px]');
+          hbLine2.classList.remove('opacity-0');
+          hbLine3.classList.remove('-rotate-45', '-translate-y-[9px]');
+        });
+      });
 
-                el.querySelector('.temp').textContent = `${coop.temp.toFixed(1)}°C`;
-                el.querySelector('.hum').textContent = `${Math.round(coop.hum)}%`;
+      // Interactive Simulated Coop Metrics Simulation
+      const coopsData = [
+        { id: 'coop-a', temp: 21.5, hum: 62 },
+        { id: 'coop-b', temp: 22.1, hum: 58 },
+        { id: 'coop-c', temp: 19.8, hum: 65 },
+        { id: 'coop-d', temp: 20.4, hum: 61 }
+      ];
 
-                const badge = el.querySelector('.status-badge');
-                if(coop.temp >= 18 && coop.temp <= 23 && coop.hum >= 55 && coop.hum <= 70) {
-                    badge.textContent = "Optimal";
-                    badge.className = "status-badge status-optimal";
-                } else {
-                    badge.textContent = "Check Required";
-                    badge.className = "status-badge status-check";
-                }
-            });
-        }
-        setInterval(updateCoopData, 10000);
+      function simulateMetrics() {
+        coopsData.forEach(coop => {
+          // Adjust conditions slightly
+          coop.temp += (Math.random() - 0.5) * 0.4;
+          coop.hum += Math.round((Math.random() - 0.5) * 2);
 
-        // --- PRICING CALCULATOR ---
-        const qtyInput = document.getElementById('calc-qty');
-        const pricePerBirdEl = document.getElementById('price-per-bird');
-        const tierNameEl = document.getElementById('tier-name');
-        const totalEl = document.getElementById('calc-total');
-        const savingsEl = document.getElementById('calc-savings');
+          // Clamping tolerances
+          if (coop.temp < 18) coop.temp = 18.2;
+          if (coop.temp > 24) coop.temp = 23.8;
+          if (coop.hum < 55) coop.hum = 56;
+          if (coop.hum > 75) coop.hum = 74;
 
-        function calculate() {
-            const qty = parseInt(qtyInput.value) || 0;
-            let price = 6.00;
-            let tier = "Standard";
-            
-            if(qty >= 15) {
-                price = 5.00;
-                tier = "Best Value";
-            } else if (qty >= 10) {
-                price = 5.50;
-                tier = "Bulk Saver";
-            }
+          // Update DOM Elements
+          const tEl = document.getElementById(`temp-${coop.id}`);
+          const hEl = document.getElementById(`hum-${coop.id}`);
+          const sEl = document.getElementById(`status-${coop.id}`);
 
-            const total = qty * price;
-            const savings = (qty * 6.00) - total;
+          if (tEl) tEl.innerText = `${coop.temp.toFixed(1)}°C`;
+          if (hEl) hEl.innerText = `${Math.round(coop.hum)}%`;
 
-            pricePerBirdEl.textContent = `$${price.toFixed(2)}`;
-            tierNameEl.textContent = tier;
-            totalEl.textContent = `$${total.toFixed(2)}`;
-            savingsEl.textContent = savings > 0 ? `-$${savings.toFixed(2)}` : "$0.00";
-            
-            // Sync with quotation form
-            document.getElementById('q-birds').value = qty;
-        }
-        qtyInput.addEventListener('input', calculate);
-
-        function scrollToQuote() {
-            document.getElementById('quotation').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // --- SECTION OBSERVER ---
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('section').forEach(section => observer.observe(section));
-
-        // --- FEATHERS ---
-        function createFeathers() {
-            const container = document.getElementById('feather-container');
-            for(let i=0; i<8; i++) {
-                const feather = document.createElement('div');
-                feather.className = 'floating-feather';
-                feather.style.left = Math.random() * 100 + '%';
-                feather.style.top = Math.random() * 100 + '%';
-                feather.style.animationDelay = (Math.random() * 5) + 's';
-                feather.innerHTML = `
-                    <svg viewBox="0 0 24 24"><path d="M12 2C12 2 10 4 10 7C10 11 12 15 12 15C12 15 14 11 14 7C14 4 12 2 12 2Z"/></svg>
-                `;
-                container.appendChild(feather);
-            }
-        }
-        createFeathers();
-
-        // --- NAV TOGGLE ---
-        function toggleNav() {
-            document.querySelector('.nav-links').classList.toggle('active');
-        }
-
-        // --- CHAT WITH SUNNY ---
-        const chatDisplay = document.getElementById('chat-display');
-        const userInput = document.getElementById('user-input');
-        const typingInd = document.getElementById('typing');
-        let chatHistory = [
-            { role: "assistant", content: "Hello there! I'm Sunny, your Sweetlone Chickens sales agent. How many feathered friends can I help you bring home today?" }
-        ];
-
-        async function sendMessage() {
-            const text = userInput.value.trim();
-            const apiKey = document.getElementById('claude-key').value.trim();
-            
-            if(!text) return;
-            if(!apiKey) {
-                alert("Please paste your Anthropic API Key in the box above to talk to Sunny.");
-                return;
-            }
-
-            // User Message
-            addMessage(text, 'user');
-            userInput.value = '';
-            chatHistory.push({ role: "user", content: text });
-
-            // Show typing
-            typingInd.style.display = 'flex';
-            chatDisplay.scrollTop = chatDisplay.scrollHeight;
-
-            try {
-                const response = await fetch('https://api.anthropic.com/v1/messages', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-api-key': apiKey,
-                        'anthropic-version': '2023-06-01',
-                        'dangerously-allow-browser': 'true'
-                    },
-                    body: JSON.stringify({
-                        model: "claude-sonnet-4-20250514",
-                        max_tokens: 1024,
-                        system: "You are Sweetlone Chickens' friendly and professional AI sales agent. Your name is 'Sunny'. You help customers purchase live chickens from Sweetlone Chickens farm. PRICING RULES: 1-9 birds: $6.00 each, 10-14 birds: $5.50 each, 15+ birds: $5.00 each. YOUR JOB: 1. Greet the customer warmly 2. Ask how many birds they want and any preferences (breed, age, size) 3. Calculate their total based on the pricing tiers 4. Collect: full name, phone number, delivery address or pickup preference, preferred delivery/pickup date 5. Confirm the full order details back to the customer 6. Tell them their order has been submitted to the Sweetlone team for processing and they will receive a confirmation call within 24 hours 7. Generate a summary block at the end of every confirmed order in this exact format: ---ORDER SUMMARY--- Customer: [name] Phone: [phone] Birds Requested: [quantity] Price Per Bird: $[price] Total: $[total] Delivery/Pickup: [details] Date: [date] Special Notes: [any notes] ---END ORDER--- Be warm, helpful, and professional. Use farm-related friendly language.",
-                        messages: chatHistory
-                    })
-                });
-
-                const data = await response.json();
-                typingInd.style.display = 'none';
-
-                if(data.content && data.content[0]) {
-                    const reply = data.content[0].text;
-                    addMessage(reply, 'sunny');
-                    chatHistory.push({ role: "assistant", content: reply });
-                } else {
-                    addMessage("Oops! My wings got tangled. Please check your API key and try again.", 'sunny');
-                }
-
-            } catch (err) {
-                typingInd.style.display = 'none';
-                addMessage("I'm having trouble connecting to the farmhouse server. Please ensure your API key is correct and valid.", 'sunny');
-                console.error(err);
-            }
-        }
-
-        function addMessage(text, side) {
-            const div = document.createElement('div');
-            div.className = `msg msg-${side}`;
-            
-            if(side === 'sunny') {
-                div.innerHTML = `<div class="sunny-avatar">🐔</div>` + parseMessage(text);
+          const isOptimal = coop.temp >= 18 && coop.temp <= 23 && coop.hum >= 55 && coop.hum <= 70;
+          if (sEl) {
+            if (isOptimal) {
+              sEl.className = "inline-block px-3 py-1 text-xs font-bold rounded-full bg-green-100 text-green-800";
+              sEl.innerText = "Optimal";
             } else {
-                div.textContent = text;
+              sEl.className = "inline-block px-3 py-1 text-xs font-bold rounded-full bg-amber-100 text-amber-800";
+              sEl.innerText = "Checking Required";
             }
-            
-            chatDisplay.appendChild(div);
-            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+          }
+        });
+      }
+
+      setInterval(simulateMetrics, 8000);
+
+      // Math Formula Logic for Order Calculator & Quotation
+      function getPricingMetrics(qty) {
+        let price = 5.00;
+        let tier = "Standard Pricing";
+
+        if (qty >= 18) {
+          price = 4.00;
+          tier = "Bulk Best Value";
+        } else if (qty >= 10) {
+          price = 4.50;
+          tier = "Middle Saver";
         }
 
-        function parseMessage(text) {
-            if(text.includes('---ORDER SUMMARY---')) {
-                const parts = text.split('---ORDER SUMMARY---');
-                const before = parts[0];
-                const summary = parts[1].split('---END ORDER---')[0];
-                const after = parts[1].split('---END ORDER---')[1] || '';
-                
-                return `
-                    ${before}
-                    <div class="order-summary-card">
-                        <strong>Order Confirmation</strong>
-                        <pre style="white-space: pre-wrap; font-family: inherit; margin: 15px 0;">${summary.trim()}</pre>
-                        <button class="btn btn-primary" onclick="window.print()" style="padding: 8px 15px; font-size: 0.8rem;">Download Summary</button>
-                    </div>
-                    ${after}
-                `;
-            }
-            return text;
+        const total = qty * price;
+        // Savings calculated based on the standard price of $5.00
+        const savings = (qty * 5.00) - total;
+
+        return { price, tier, total, savings };
+      }
+
+      // Live Order Calculator Sync Elements
+      const calcQtyInput = document.getElementById('calc-qty-input');
+      const livePrice = document.getElementById('live-calc-price');
+      const liveTier = document.getElementById('live-calc-tier');
+      const liveTotal = document.getElementById('live-calc-total');
+      const liveSavings = document.getElementById('live-calc-savings');
+      
+      const formQty = document.getElementById('form-qty');
+
+      function updateCalculator(qty) {
+        const metrics = getPricingMetrics(qty);
+        
+        livePrice.innerText = `$${metrics.price.toFixed(2)}`;
+        liveTier.innerText = metrics.tier;
+        liveTotal.innerText = `$${metrics.total.toFixed(2)}`;
+        
+        if (metrics.savings > 0) {
+          liveSavings.innerText = `-$${metrics.savings.toFixed(2)}`;
+          liveSavings.className = "text-2xl font-black brand-font text-green-700";
+        } else {
+          liveSavings.innerText = "$0.00";
+          liveSavings.className = "text-2xl font-black brand-font text-gray-400";
+        }
+      }
+
+      calcQtyInput.addEventListener('input', (e) => {
+        const val = Math.max(1, parseInt(e.target.value) || 0);
+        updateCalculator(val);
+        // Sync to quote form quantity field directly
+        formQty.value = val;
+      });
+
+      formQty.addEventListener('input', (e) => {
+        const val = Math.max(1, parseInt(e.target.value) || 0);
+        updateCalculator(val);
+        // Sync to calculator input value directly
+        calcQtyInput.value = val;
+      });
+
+      // Quick scroll button to Quote Form
+      document.getElementById('btn-calc-quote').addEventListener('click', () => {
+        document.getElementById('quotation').scrollIntoView({ behavior: 'smooth' });
+      });
+
+      // Initialize the default state on load
+      updateCalculator(17);
+
+      // AI Chatbot "Sunny" Controller
+// ====================================
+// SUNNY SALES AGENT V2
+// ====================================
+
+const chatMessagesBox = document.getElementById('chat-messages-box');
+const chatUserInput = document.getElementById('chat-user-input');
+const chatSendBtn = document.getElementById('chat-send-btn');
+
+function renderMessage(sender, text) {
+
+  const msgDiv = document.createElement('div');
+
+  if(sender === 'sunny'){
+      msgDiv.className =
+      "self-start max-w-[85%] bg-white border border-primary-light rounded-2xl rounded-bl-none p-4 relative pl-12 shadow-xs";
+
+      msgDiv.innerHTML = `
+      <div class="absolute -left-5 bottom-0 bg-white border border-primary rounded-full w-10 h-10 flex items-center justify-center text-lg shadow-sm">🐔</div>
+      <span>${text}</span>
+      `;
+  } else {
+
+      msgDiv.className =
+      "self-end max-w-[85%] bg-primary text-white rounded-2xl rounded-br-none p-4";
+
+      msgDiv.innerHTML = text;
+  }
+
+  chatMessagesBox.appendChild(msgDiv);
+  chatMessagesBox.scrollTop = chatMessagesBox.scrollHeight;
+}
+
+function getSunnyResponse(message){
+
+const msg = message.toLowerCase();
+
+// Greetings
+if(
+msg.includes("hello") ||
+msg.includes("hi") ||
+msg.includes("hey")
+){
+return `
+Hello 👋
+
+Welcome to Sweetlone Chickens.
+
+I'm Sunny, your poultry sales assistant.
+
+How many birds are you interested in today?
+`;
+}
+
+// Pricing
+if(
+msg.includes("price") ||
+msg.includes("pricing") ||
+msg.includes("cost") ||
+msg.includes("how much")
+){
+return `
+Current Pricing
+
+1 - 9 Birds = $5.00 each
+
+10 - 17 Birds = $4.50 each
+
+18+ Birds = $4.00 each
+
+Would you like a quotation?
+`;
+}
+
+// Bulk
+if(
+msg.includes("bulk") ||
+msg.includes("wholesale") ||
+msg.includes("100 birds") ||
+msg.includes("50 birds")
+){
+return `
+Bulk buyers enjoy:
+
+✓ Reduced pricing
+
+✓ Priority stock
+
+✓ Scheduled deliveries
+
+✓ Easier future ordering
+
+Orders above 18 birds receive our Bulk Saver pricing.
+`;
+}
+
+// Delivery
+if(
+msg.includes("delivery") ||
+msg.includes("shipping") ||
+msg.includes("transport")
+){
+return `
+Delivery and collection options are available.
+
+Please provide:
+
+• Quantity
+
+• Location
+
+• Preferred Date
+`;
+}
+
+// Vaccination
+if(msg.includes("vaccinated")){
+return `
+Our birds follow a structured vaccination and health program to maintain quality standards.
+`;
+}
+
+// Breed
+if(msg.includes("breed")){
+return `
+We raise quality meat birds selected for healthy growth and good performance.
+`;
+}
+
+// Weight
+if(msg.includes("weight")){
+return `
+Bird weights depend on age and batch.
+
+Contact us for current stock specifications.
+`;
+}
+
+// Farm Visit
+if(
+msg.includes("visit") ||
+msg.includes("tour")
+){
+return `
+Visitors are welcome by appointment.
+
+Please contact our team to schedule a suitable visit.
+`;
+}
+
+// Restaurant Supply
+if(
+msg.includes("restaurant") ||
+msg.includes("butchery") ||
+msg.includes("hotel")
+){
+return `
+Yes.
+
+We supply restaurants, butcheries, caterers and resellers.
+`;
+}
+
+// Reseller
+if(
+msg.includes("reseller") ||
+msg.includes("distributor")
+){
+return `
+We welcome reseller partnerships.
+
+Please provide:
+
+Business Name
+
+Location
+
+Expected Monthly Volume
+`;
+}
+
+// Football, Weather, News
+if(
+msg.includes("football") ||
+msg.includes("soccer") ||
+msg.includes("arsenal") ||
+msg.includes("chelsea") ||
+msg.includes("manchester") ||
+msg.includes("weather") ||
+msg.includes("news") ||
+msg.includes("bitcoin") ||
+msg.includes("crypto") ||
+msg.includes("politics")
+){
+return `
+I understand your question.
+
+However I am Sunny 🐔, Sweetlone Chickens' sales assistant.
+
+My expertise is limited to poultry products, quotations, deliveries and customer support.
+
+How can I help you with chickens today?
+`;
+}
+
+// Quantity Detection
+const qtyMatch = msg.match(/\d+/);
+
+if(qtyMatch){
+
+const qty = parseInt(qtyMatch[0]);
+
+let price = 5;
+
+if(qty >= 18){
+price = 4;
+}
+else if(qty >= 10){
+price = 4.5;
+}
+
+const total = qty * price;
+
+return `
+Excellent choice.
+
+Quantity: ${qty} birds
+
+Price Per Bird: $${price.toFixed(2)}
+
+Total: $${total.toFixed(2)}
+
+To proceed please provide:
+
+• Full Name
+
+• Phone Number
+
+• Delivery or Pickup
+
+• Preferred Date
+`;
+}
+
+return `
+I'm Sunny 🐔
+
+I specialize in:
+
+• Chicken Sales
+
+• Pricing
+
+• Bulk Orders
+
+• Quotations
+
+• Deliveries
+
+How can I assist you today?
+`;
+
+}
+
+function sendChatMessage(){
+
+const text = chatUserInput.value.trim();
+
+if(!text) return;
+
+renderMessage('user', text);
+
+chatUserInput.value = '';
+
+setTimeout(()=>{
+
+const reply = getSunnyResponse(text);
+
+renderMessage('sunny', reply);
+
+},600);
+
+}
+
+chatSendBtn.addEventListener('click', sendChatMessage);
+
+chatUserInput.addEventListener('keypress', function(e){
+
+if(e.key === 'Enter'){
+sendChatMessage();
+}
+
+});
+
+      // Formal Quotation Overlay controller
+      const quoteForm = document.getElementById('quote-generator-form');
+      const quoteOverlay = document.getElementById('quotation-output');
+      const btnCloseOverlay = document.getElementById('btn-close-overlay');
+      const btnPrintOverlay = document.getElementById('btn-print-overlay');
+
+      const qdocNumber = document.getElementById('qdoc-number');
+      const qdocName = document.getElementById('qdoc-name');
+      const qdocCompany = document.getElementById('qdoc-company');
+      const qdocEmail = document.getElementById('qdoc-email');
+      const qdocPhone = document.getElementById('qdoc-phone');
+      const qdocIssueDate = document.getElementById('qdoc-issue-date');
+      const qdocExpiryDate = document.getElementById('qdoc-expiry-date');
+      const qdocDeliveryDate = document.getElementById('qdoc-delivery-date');
+      const qdocItemQty = document.getElementById('qdoc-item-qty');
+      const qdocItemPrice = document.getElementById('qdoc-item-price');
+      const qdocItemTotal = document.getElementById('qdoc-item-total');
+      const qdocSubtotal = document.getElementById('qdoc-subtotal');
+      const qdocSavings = document.getElementById('qdoc-savings');
+      const qdocGrandTotal = document.getElementById('qdoc-grand-total');
+      const qdocNotesBlock = document.getElementById('qdoc-notes-block');
+      const qdocNotes = document.getElementById('qdoc-notes');
+
+      quoteForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('form-name').value;
+        const company = document.getElementById('form-company').value;
+        const email = document.getElementById('form-email').value;
+        const phone = document.getElementById('form-phone').value;
+        const qty = parseInt(document.getElementById('form-qty').value) || 0;
+        const dateInput = document.getElementById('form-delivery-date').value;
+        const notes = document.getElementById('form-notes').value;
+
+        // Generate dynamic quote details
+        const randomCode = Math.floor(1000 + Math.random() * 9000);
+        qdocNumber.innerText = `#SLC-2026-${randomCode}`;
+
+        // Standard issue date
+        const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+        const now = new Date();
+        qdocIssueDate.innerText = now.toLocaleDateString(undefined, options);
+
+        // Standard expiry date (14 days from now)
+        const expiry = new Date();
+        expiry.setDate(expiry.getDate() + 14);
+        qdocExpiryDate.innerText = expiry.toLocaleDateString(undefined, options);
+
+        // Expected delivery
+        qdocDeliveryDate.innerText = dateInput ? new Date(dateInput).toLocaleDateString(undefined, options) : 'TBD';
+
+        // Calculate pricing
+        const metrics = getPricingMetrics(qty);
+        const subtotal = qty * 5.00;
+
+        qdocName.innerText = name;
+        if (company) {
+          qdocCompany.innerText = company;
+          qdocCompany.classList.remove('hidden');
+        } else {
+          qdocCompany.classList.add('hidden');
+        }
+        qdocEmail.innerText = email;
+        qdocPhone.innerText = phone;
+
+        qdocItemQty.innerText = qty;
+        qdocItemPrice.innerText = `$${metrics.price.toFixed(2)}`;
+        qdocItemTotal.innerText = `$${metrics.total.toFixed(2)}`;
+        qdocSubtotal.innerText = `$${subtotal.toFixed(2)}`;
+        
+        if (metrics.savings > 0) {
+          qdocSavings.innerText = `-$${metrics.savings.toFixed(2)}`;
+        } else {
+          qdocSavings.innerText = "$0.00";
+        }
+        qdocGrandTotal.innerText = `Total: $${metrics.total.toFixed(2)}`;
+
+        if (notes.trim()) {
+          qdocNotes.innerText = notes;
+          qdocNotesBlock.classList.remove('hidden');
+        } else {
+          qdocNotesBlock.classList.add('hidden');
         }
 
-        function handleKey(e) {
-            if(e.key === 'Enter') sendMessage();
-        }
+        // Show Overlay
+        quoteOverlay.classList.remove('hidden');
+        quoteOverlay.classList.add('block');
+      });
 
-        // --- QUOTATION GENERATOR ---
-        function generateQuote(e) {
-            e.preventDefault();
-            const name = document.getElementById('q-name').value;
-            const company = document.getElementById('q-company').value;
-            const email = document.getElementById('q-email').value;
-            const phone = document.getElementById('q-phone').value;
-            const qty = parseInt(document.getElementById('q-birds').value);
-            const date = document.getElementById('q-date').value;
-            const notes = document.getElementById('q-notes').value;
+      btnCloseOverlay.addEventListener('click', () => {
+        quoteOverlay.classList.remove('block');
+        quoteOverlay.classList.add('hidden');
+      });
 
-            let price = 6.00;
-            if(qty >= 15) price = 5.00;
-            else if(qty >= 10) price = 5.50;
-
-            const total = qty * price;
-            const savings = (qty * 6.00) - total;
-            const quoteNum = `SLC-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
-            const expiry = new Date();
-            expiry.setDate(expiry.getDate() + 14);
-
-            const content = `
-                <div class="quote-header">
-                    <div>
-                        <h1 class="brand-font" style="color: var(--secondary);">Sweetlone Chickens</h1>
-                        <p>Farm Fresh. Family Raised.</p>
-                    </div>
-                    <div style="text-align: right;">
-                        <h2 style="margin: 0;">QUOTATION</h2>
-                        <p>#${quoteNum}</p>
-                    </div>
-                </div>
-                
-                <div class="quote-info-grid">
-                    <div>
-                        <strong>ISSUED TO:</strong><br>
-                        ${name}<br>
-                        ${company ? company + '<br>' : ''}
-                        ${email}<br>
-                        ${phone}
-                    </div>
-                    <div style="text-align: right;">
-                        <strong>DETAILS:</strong><br>
-                        Date: ${new Date().toLocaleDateString()}<br>
-                        Valid Until: ${expiry.toLocaleDateString()}<br>
-                        Expected: ${date ? date : 'TBD'}
-                    </div>
-                </div>
-
-                <div class="item-row item-header">
-                    <div>Description</div>
-                    <div>Qty</div>
-                    <div>Price</div>
-                    <div>Total</div>
-                </div>
-                <div class="item-row">
-                    <div>Premium Live Chickens</div>
-                    <div>${qty}</div>
-                    <div>$${price.toFixed(2)}</div>
-                    <div>$${total.toFixed(2)}</div>
-                </div>
-
-                <div class="totals-block">
-                    <p>Subtotal: $${total.toFixed(2)}</p>
-                    <p>Volume Savings: <span style="color: #166534;">$${savings.toFixed(2)}</span></p>
-                    <div class="grand-total">Grand Total: $${total.toFixed(2)}</div>
-                </div>
-
-                ${notes ? `<div style="margin-top: 30px;"><strong>Special Notes:</strong><br>${notes}</div>` : ''}
-
-                <div class="terms">
-                    <strong>TERMS & CONDITIONS:</strong><br>
-                    1. This quotation is valid for 14 days from the date of issue.<br>
-                    2. Prices are subject to availability at time of order confirmation.<br>
-                    3. A 50% deposit is required to confirm your order.<br>
-                    4. Balance payable on delivery or collection.<br>
-                    5. Live birds are sold as-is; Sweetlone Chickens is not liable for post-sale mortality.<br>
-                    6. Delivery charges may apply depending on location.
-                </div>
-
-                <div style="margin-top: 40px; text-align: center; font-size: 0.8rem; border-top: 1px solid #eee; padding-top: 20px;">
-                    Thank you for choosing Sweetlone Chickens | Contact: hello@sweetlonechickens.com
-                </div>
-            `;
-
-            document.getElementById('print-content').innerHTML = content;
-            document.getElementById('quotation-output').style.display = 'block';
-        }
-
-        function closeQuote() {
-            document.getElementById('quotation-output').style.display = 'none';
-        }
+      btnPrintOverlay.addEventListener('click', () => {
+        window.print();
+      });
     </script>
-</body>
+  </body>
 </html>
